@@ -7,8 +7,10 @@
     'depends': ['base', 'mail'],
     'data': [
         'security/ir.model.access.csv',
-        'views/loan.xml',
+        'data/sequence.xml',
         'views/menu.xml',
+        'views/loan.xml',
+        'views/loan_line.xml',
         'views/book.xml',
         'views/category.xml',
         'views/author.xml'

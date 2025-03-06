@@ -3,3 +3,4 @@ access_library_book,access_library_book,model_library_book,base.group_user,1,1,1
 access_library_author,access_library_author,model_library_author,base.group_user,1,1,1,1
 access_library_category,access_library_category,model_library_category,base.group_user,1,1,1,1
 access_library_loan,access_library_loan,model_library_loan,base.group_user,1,1,1,1
+access_library_loan_line,access_library_loan_line,model_library_loan_line,base.group_user,1,1,1,1

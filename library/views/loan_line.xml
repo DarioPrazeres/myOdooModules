@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_library_loan_line_tree" model="ir.ui.view">
+        <field name="name">library.loan.line.tree</field>
+        <field name="model">library.loan.line</field>
+        <field name="arch" type="xml">
+            <tree string="Loan" editable="top">
+                <field name="loan_ids" invisible="1"/>
+                <field name="book_ids"/>
+                <field name="qty"/>
+                <field name="price_book"/>
+                <field name="loan_date" readonly="1"/>
+                <field name="due_date"/>
+                <field name="day_loan"/>
+                <field name="return_date"/>
+                <field name="overdue_date"/>
+                <field name="sub_total"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--
+     <record id="view_library_loan_form" model="ir.ui.view">
+        <field name="name">library.loan.form</field>
+        <field name="model">library.loan</field>
+        <field name="arch" type="xml">
+            <form string="Book Loan">
+                <sheet>
+                    <group>
+                        <field name="book_id"/>
+                        <field name="user_id"/>
+                        <field name="loan_date"/>
+                        <field name="due_date"/>
+                        <field name="return_date"/>
+                        <field name="status"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="return_book" type="object" string="Registrar Devolução" class="oe_highlight"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    -->
+    <record id="action_library_loan_line_book" model="ir.actions.act_window">
+        <field name="name">Loan Line</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">library.loan.line</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="menu_library_loan_line_book"
+              name="Loan Line Book"
+              action="action_library_loan_line_book"
+              parent="menu_library_operations"
+              sequence ="10"/>
+</odoo>

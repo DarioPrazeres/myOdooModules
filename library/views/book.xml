@@ -6,29 +6,42 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <group>
-                        <field name="cover"
-                               widget="image"
-                               class="oe_avatar"
-                               options="{'preview_image':'cover'}"
-                               style="max-width:200px; max-height=200px"/>
-                        <field name="title"/>
-                        <field name="available"/>
-                        <field name="datePost"/>
-                        <field name="category"/>
-                        <field name="author"/>
-                        <field name="capitalizeTitle"/>
-                    </group>
+                    <field name="cover"
+                           widget="image"
+                           class="oe_avatar"
+                           options="{'preview_image':'cover'}"
+                           style="max-width:200px; max-height=200px"/>
+                    <field name="title"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="capitalizeTitle" readonly="1"/>
+                        </h1>
+                        <group style="max-width:400px;">
+                            <group>
+                                <field name="available"/>
+                            </group>
+                            <group>
+                                <field name="datePost"/>
+                            </group>
+                        </group>
+                    </div>
                     <notebook>
-                        <page name="description" string="Description">
+                        <page string="General Information" name="general_info_book">
                             <group>
                                 <group>
-                                    <p>Aqui Vem texto</p>
+                                    <field name="description"/>
                                 </group>
                                 <group>
-                                    <p>Aqui Vem texto 2</p>
+                                    <field name="category"/>
+                                    <field name="author"/>
+                                    <field name="price_day"/>
+                                    <field name="qty_stock"/>
+                                    <field name="total_books"/>
                                 </group>
                             </group>
+                        </page>
+                        <page string="Sales" name="sales_book">
+                            <p>pending</p>
                         </page>
                     </notebook>
                 </sheet>
@@ -45,9 +58,20 @@
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="title"/>
-                <field name="available"/>
+                <field name="capitalizeTitle"/>
+                <field name="author"/>
+                <field name="qty_stock"/>
+                <field name="total_books"/>
+                <field name="available">
+
+                </field>
                 <field name="datePost"/>
+                <field name="available" string="Status" style="color: red;"
+                       attrs="{'invisible': [('available','=',True)]}"/>
+                <field name="available" string="Status" style="color: green;"
+                       attrs="{'invisible': [('available','=','False')]}"/>
+
+
             </tree>
         </field>
     </record>
@@ -78,6 +102,6 @@
     <menuitem id="menu_book"
               name="Livros"
               action="action_library_book"
-              parent="menu_library_operations"
+              parent="menu_library_root"
               sequence="10"/>
 </odoo>

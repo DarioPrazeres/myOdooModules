@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <!--web_icon="urlimagehere"-->
     <menuitem id="menu_library_root"
               name="Library"
               sequence="10"/>
 
     <menuitem id="menu_library_operations"
-              name="Books"
+              name="Loan"
               parent="menu_library_root"
+              action="action_library_loan_book"
               sequence="10"/>
 
 </odoo>

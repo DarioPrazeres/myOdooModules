@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--noupdate="1" it means that you can not reset the config when you update the MODULE-->
+    <data>
+        <record id="sequence_library_book" model="ir.sequence">
+            <field name="name">Book Sequence</field>
+            <field name="code">library.book</field>
+            <field name="prefix">BK</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="sequence_library_loan" model="ir.sequence">
+            <field name="name">Loan Sequence</field>
+            <field name="code">library.loan</field>
+            <field name="prefix">LO</field>
+            <field name="padding">5</field>
+        </record>
+    </data>
+</odoo>
