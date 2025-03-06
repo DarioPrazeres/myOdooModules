@@ -31,18 +31,21 @@
                     <notebook>
                         <page string="Loan Lines" name="loan_lines">
                             <field name="loan_line_ids"/>
-                            <footer>
+                            <group>
                                 <group>
-                                    <group>
-                                        <button name="return_book" type="object" string="Registrar Devolução"
+                                    <button name="return_book" type="object" string="Registrar Devolução"
                                                 class="oe_highlight"/>
-                                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
-                                    </group>
-                                    <group>
-                                        <field name="price_total"/>
-                                    </group>
+                                    <!--<button string="Cancelar" class="btn-secondary" special="cancel"/>-->
                                 </group>
-                            </footer>
+                                <group>
+                                    <div class="oe_title">
+                                        <p>Total:</p>
+                                        <h4>
+                                            <field name="price_total" readonly="1"/>
+                                        </h4>
+                                    </div>
+                                </group>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>

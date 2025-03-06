@@ -14,7 +14,7 @@ class LibraryLoan(models.Model):
 
     user_id = fields.Many2one('res.users', required=True)
     loan_line_ids = fields.One2many('library.loan.line', 'loan_ids', string="Loan Line")
-    price_total = fields.Float(string="Total", default=1000)
+    price_total = fields.Float(compute='_compute_preco_total', store=True,string="Total")
     ref = fields.Char(string="Reference", default=lambda self: _('New'))
 
     def return_book(self):
@@ -57,6 +57,12 @@ class LibraryLoan(models.Model):
            vals['ref'] = self.env['ir.sequence'].next_by_code('library.loan')
         return super(LibraryLoan, self).create(vals_list)
 
+    @api.depends('loan_line_ids.sub_total')
+    def _compute_preco_total(self):
+        for loan in self:
+            loan.price_total = sum(line.sub_total for line in loan.loan_line_ids)
+
+
 class LibraryLoanLine(models.Model):
     _name = 'library.loan.line'
     _description = "Library Loan Line"
@@ -71,7 +77,7 @@ class LibraryLoanLine(models.Model):
         related='book_ids.price_day',
         string="Per Day (KZ)",
         store=True)
-    qty = fields.Integer(string="Quantity", tracking=True)
+    qty = fields.Integer(string="Quantity", default = 0,tracking=True)
     loan_date = fields.Date(string='Loan day', default=fields.Date.today, required = True, tracking=True)
     return_date = fields.Date(string='Return day', store=True, tracking=True)
     due_date = fields.Date(string='Due Date', required = True, tracking=True)
@@ -103,7 +109,6 @@ class LibraryLoanLine(models.Model):
         if self.qty :
             if self.book_ids.qty_stock < self.qty:
                 self.qty = self.book_ids.qty_stock
-                raise UserError("The due date cannot be set in the past")
             else:
                 self.book_ids.qty_stock = self.book_ids.qty_stock - self.qty
 
@@ -115,9 +120,19 @@ class LibraryLoanLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        self.book_ids.write({'qty_stock': self.book_ids.qty_stock})
+        for vals in vals_list:
+            book = self.env['library.book'].browse(vals['book_ids'])
+            total_loans = sum(self.search([('book_ids', '=', book.id)]).mapped('qty'))
+            available_qty = book.total_books - total_loans
+
+            if vals.get('qty', 1) > available_qty:
+                raise ValidationError(f"Não há livros suficientes disponíveis. Livros disponíveis: {available_qty}")
+
+            book.qty_stock = available_qty - vals.get('qty', 1)
+            book.write({'qty_stock': book.qty_stock})
         return super().create(vals_list)
 
     def write(self, values):
+        self.book_ids.qty_stock = self.book_ids.total_books - self.qty
         self.book_ids.write({'qty_stock': self.book_ids.qty_stock})
         return super().write(values)

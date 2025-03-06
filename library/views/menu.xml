@@ -6,7 +6,7 @@
               sequence="10"/>
 
     <menuitem id="menu_library_operations"
-              name="Loan"
+              name="Operations"
               parent="menu_library_root"
               action="action_library_loan_book"
               sequence="10"/>

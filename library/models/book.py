@@ -24,6 +24,13 @@ class LibraryBook(models.Model):
     total_books = fields.Integer(string="Total Book", store=True)
     ref = fields.Char(string="Reference", default=lambda self: _('New'))
 
+    @api.onchange('qty_stock', 'available')
+    def onchange_qty_stock(self):
+        if self.qty_stock:
+            if self.qty_stock > 0:
+                self.available = True
+
+
     @api.depends("title")
     def _compute_upper(self):
         for rec in self:

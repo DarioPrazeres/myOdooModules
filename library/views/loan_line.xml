@@ -7,13 +7,13 @@
             <tree string="Loan" editable="top">
                 <field name="loan_ids" invisible="1"/>
                 <field name="book_ids"/>
-                <field name="qty"/>
                 <field name="price_book"/>
                 <field name="loan_date" readonly="1"/>
                 <field name="due_date"/>
                 <field name="day_loan"/>
                 <field name="return_date"/>
                 <field name="overdue_date"/>
+                <field name="qty"/>
                 <field name="sub_total"/>
             </tree>
         </field>
