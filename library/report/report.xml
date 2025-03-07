@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report id="report_loan_card"
+            string="Loan Overview"
+            model="library.loan"
+            report_type="qweb-pdf"
+            name="library.report_loan"
+            file="library.report_report_loan"/>
+</odoo>

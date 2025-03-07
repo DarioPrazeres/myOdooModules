@@ -4,7 +4,10 @@ from odoo import api, fields, models, _, tools
 from odoo.osv import expression
 from odoo.exceptions import UserError,  ValidationError
 from pkg_resources import require
-from datetime import datetime
+import logging
+
+
+
 
 class LibraryLoan(models.Model):
     _name = 'library.loan'
@@ -12,13 +15,19 @@ class LibraryLoan(models.Model):
     _inherit = ['mail.thread']
     _rec_name = 'ref'
 
-    user_id = fields.Many2one('res.users', required=True)
+    user_id = fields.Many2one('res.partner', 'Customer', required=True)
+    name_partner = fields.Char(
+        related='user_id.name',
+        string="Name Customer")
     loan_line_ids = fields.One2many('library.loan.line', 'loan_ids', string="Loan Line")
     price_total = fields.Float(compute='_compute_preco_total', store=True,string="Total")
     ref = fields.Char(string="Reference", default=lambda self: _('New'))
 
     def return_book(self):
         for rec in self:
+            for loan_line in rec.loan_line_ids:
+                date_return = loan_line.return_date
+
             if rec.return_date and rec.return_date > rec.due_date:
                 rec.status = 'overdue'
                 rec.overdue_date = rec.return_date
@@ -68,6 +77,8 @@ class LibraryLoanLine(models.Model):
     _description = "Library Loan Line"
     _inherit = ['mail.thread']
 
+    _logger = logging.getLogger(__name__)
+
     loan_ids = fields.Many2one('library.loan', string="Loan")
     book_ids = fields.Many2one('library.book',
                                string="Books",
@@ -106,11 +117,16 @@ class LibraryLoanLine(models.Model):
 
     @api.onchange('qty')
     def _onchange_qty(self):
-        if self.qty :
-            if self.book_ids.qty_stock < self.qty:
+        if self.qty:
+            if self.qty > 0 and self.book_ids.qty_stock < self.qty:
                 self.qty = self.book_ids.qty_stock
-            else:
-                self.book_ids.qty_stock = self.book_ids.qty_stock - self.qty
+
+    @api.onchange('return_date')
+    def _onchange_return_date(self):
+        if self.return_date:
+            if self.return_date > self.due_date:
+                self.qty = self.book_ids.qty_stock
+
 
     @api.constrains('due_date')
     def _check_due_date(self):
@@ -120,19 +136,34 @@ class LibraryLoanLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        today = fields.Date.today
         for vals in vals_list:
+            qty_selected = vals.get('qty', 1)
             book = self.env['library.book'].browse(vals['book_ids'])
-            total_loans = sum(self.search([('book_ids', '=', book.id)]).mapped('qty'))
-            available_qty = book.total_books - total_loans
 
-            if vals.get('qty', 1) > available_qty:
-                raise ValidationError(f"Não há livros suficientes disponíveis. Livros disponíveis: {available_qty}")
+            #total_loans = sum(self.search([('book_ids', '=', book.id)]).mapped('qty'))
+            self._logger.info(f"Processing book: {book.id}, vals: {vals},"
+                              f"Valores gerais:{vals_list}")
 
-            book.qty_stock = available_qty - vals.get('qty', 1)
+            if vals.get('return_date') or vals.get('return_date', today) < vals.get('due_date', today):
+                available_qty = book.qty_stock + qty_selected
+                if available_qty > 0:
+                    raise ValidationError(f"Books Available: {book.qty_stock}")
+            else:
+                available_qty = book.qty_stock - qty_selected
+                if available_qty < 0:
+                    raise ValidationError(f"There is no books available enough. ,"
+                                          f"Books Available: {book.qty_stock}")
+
+            book.qty_stock = available_qty
             book.write({'qty_stock': book.qty_stock})
+            if book.qty_stock <= 0: book.write({'available': False})
+
         return super().create(vals_list)
 
     def write(self, values):
-        self.book_ids.qty_stock = self.book_ids.total_books - self.qty
-        self.book_ids.write({'qty_stock': self.book_ids.qty_stock})
+        #self.book_ids.qty_stock = self.book_ids.total_books - self.qty
+        #self.book_ids.write({'qty_stock': self.book_ids.qty_stock})
         return super().write(values)
+
+

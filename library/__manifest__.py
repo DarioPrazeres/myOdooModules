@@ -13,6 +13,8 @@
         'views/book.xml',
         'views/category.xml',
         'views/author.xml',
-        'views/menu.xml'
+        'views/menu.xml',
+        'report/report_loan.xml',
+        'report/report.xml',
     ]
 }
