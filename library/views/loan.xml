@@ -6,9 +6,9 @@
         <field name="arch" type="xml">
             <tree string="Loan">
                 <field name="user_id"/>
+                <field name="currency_id"/>
                 <field name="loan_line_ids"/>
-                <!--<field name="loan_date"/>
-                <field name="due_date"/>
+                <!--<field name="due_date"/>
                 <field name="status"/>-->
             </tree>
         </field>
@@ -27,6 +27,7 @@
                     </div>
                     <group>
                         <field name="user_id"/>
+                        <field name="currency_id"/>
                     </group>
                     <notebook>
                         <page string="Loan Lines" name="loan_lines">

@@ -19,8 +19,11 @@ class LibraryLoan(models.Model):
     name_partner = fields.Char(
         related='user_id.name',
         string="Name Customer")
+    currency_id = fields.Many2one('res.currency', string="Currency", required=True,
+                                  default=lambda self: self.env.company.currency_id)
     loan_line_ids = fields.One2many('library.loan.line', 'loan_ids', string="Loan Line")
-    price_total = fields.Float(compute='_compute_preco_total', store=True,string="Total")
+    #price_total = fields.Float(compute='_compute_preco_total', store=True, string="Total")
+    price_total = fields.Float(store=True, string="Total", currency_field='currency_id')
     ref = fields.Char(string="Reference", default=lambda self: _('New'))
 
     def return_book(self):
@@ -66,7 +69,8 @@ class LibraryLoan(models.Model):
            vals['ref'] = self.env['ir.sequence'].next_by_code('library.loan')
         return super(LibraryLoan, self).create(vals_list)
 
-    @api.depends('loan_line_ids.sub_total')
+    #@api.depends('loan_line_ids.sub_total')
+    @api.onchange('loan_line_ids.sub_total')
     def _compute_preco_total(self):
         for loan in self:
             loan.price_total = sum(line.sub_total for line in loan.loan_line_ids)
@@ -99,7 +103,7 @@ class LibraryLoanLine(models.Model):
     ], default = 'loan', string="Status Loan", tracking=True)
     overdue_date = fields.Date(string="Overdue Date", tracking=True)
 
-    day_loan = fields.Integer(string="Day Loan", compute='_compute_day_loan', default=0)
+    day_loan = fields.Integer(string="Day Loan", store=True, compute='_compute_day_loan', default=0)
     sub_total = fields.Float(string="Subtotal", store=True, default=0, tracking=True)
     total = fields.Integer(string="Total", compute='_compute_total', store=True, default=0)
 
@@ -127,7 +131,6 @@ class LibraryLoanLine(models.Model):
             if self.return_date > self.due_date:
                 self.qty = self.book_ids.qty_stock
 
-
     @api.constrains('due_date')
     def _check_due_date(self):
         for rec in self:
@@ -136,7 +139,7 @@ class LibraryLoanLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        today = fields.Date.today
+        today = fields.Date.today()
         for vals in vals_list:
             qty_selected = vals.get('qty', 1)
             book = self.env['library.book'].browse(vals['book_ids'])
@@ -145,10 +148,22 @@ class LibraryLoanLine(models.Model):
             self._logger.info(f"Processing book: {book.id}, vals: {vals},"
                               f"Valores gerais:{vals_list}")
 
-            if vals.get('return_date') or vals.get('return_date', today) < vals.get('due_date', today):
-                available_qty = book.qty_stock + qty_selected
-                if available_qty > 0:
-                    raise ValidationError(f"Books Available: {book.qty_stock}")
+            return_date = vals.get('return_date')
+            due_date = vals.get('due_date', today)
+
+            if return_date and due_date:
+                # Are dates in Right format(Date) for comparation
+                if isinstance(return_date, str):
+                    return_date = fields.Date.from_string(return_date)
+                if isinstance(due_date, str):
+                    due_date = fields.Date.from_string(due_date)
+
+                # Camparar Dates
+                if return_date < due_date:
+                    available_qty = book.qty_stock + qty_selected
+                    if available_qty > 0:
+                        raise ValidationError(f"Books Available: {book.qty_stock}")
+
             else:
                 available_qty = book.qty_stock - qty_selected
                 if available_qty < 0:
