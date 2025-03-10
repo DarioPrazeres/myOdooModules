@@ -8,20 +8,20 @@
                         <div class="page">
                             <br/>
                             <h2>Relatório de Empréstimo de Livros (PDF)</h2>
-                            <p><strong>Referência:</strong> <span t-field="doc.ref"/></p>
-                            <p><strong>Nome do Cliente:</strong> <span t-field="doc.name_partner"/></p>
+                            <p><strong>Reference:</strong> <span t-field="doc.ref"/></p>
+                            <p><strong>Clients Name:</strong> <span t-field="doc.name_partner"/></p>
 
 
-                            <h3>Linhas do Empréstimo</h3>
+                            <h3>Books Loan</h3>
                             <table class="table table-sm mt32 no-border">
                                 <thead>
                                     <tr>
-                                        <th>Nome do Livro</th>
-                                        <th>Data de Levatamento</th>
-                                        <th>Data de Devolução</th>
+                                        <th>Name</th>
+                                        <th>LoanDate</th>
+                                        <th>Due Date</th>
                                         <th>Days</th>
-                                        <th>Quantidade</th>
-                                        <th>Unit Hour</th>
+                                        <th>Quantity</th>
+                                        <th>Unit day</th>
                                         <th>Sub Total</th>
                                     </tr>
                                 </thead>

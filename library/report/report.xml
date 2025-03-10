@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <report id="report_loan_card"
+    <!--<report id="report_loan_card"
             string="Loan Overview"
             model="library.loan"
             report_type="qweb-pdf"
+            paperformat_id="loan_custom_report_paper_format"
             name="library.report_loan"
-            file="library.report_report_loan"/>
+            file="library.report_report_loan"/>-->
+
+    <report id="report_loan_card"
+                string="Loan Overview"
+                model="library.loan"
+                report_type="qweb-pdf"
+                name="library.report_loan"
+                file="library.report_report_loan"/>
+
+    <record id="action_report_loan" model="ir.actions.report">
+        <field name="name">Loan Report</field>
+        <field name="model">library.loan</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">library.report_loan</field>
+        <field name="report_file">library.report_report_loan</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="paperformat_id" ref="library.loan_custom_report_paper_format"/>
+        <field name="binding_type">report</field>
+    </record>
 </odoo>

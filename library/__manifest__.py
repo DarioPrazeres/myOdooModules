@@ -8,6 +8,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
+        'data/paper_format.xml',
         'views/loan.xml',
         'views/loan_line.xml',
         'views/book.xml',

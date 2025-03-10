@@ -66,4 +66,5 @@
               action="action_library_loan_book"
               parent="menu_library_operations"
               sequence="10"/>
+
 </odoo>
