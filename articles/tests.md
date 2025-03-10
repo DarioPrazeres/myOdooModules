@@ -1,6 +1,22 @@
 Em Odoo, testes unitários são fundamentais para garantir a integridade do código, e o framework oferece uma estrutura pronta para realizá-los usando o módulo `unittest`. Vou te mostrar um exemplo básico de como escrever um teste unitário em Odoo.
+### Conceitos de Testes em UnitTest in python:
+- test fixture: 
+A test fixture represents the preparation needed to perform one or more tests, and any associated cleanup actions. This may involve, for example, creating temporary or proxy databases, directories, or starting a server process.
 
+- test case
+A test case is the individual unit of testing. It checks for a specific response to a particular set of inputs. unittest provides a base class, TestCase, which may be used to create new test cases.
+
+- test suite
+A test suite is a collection of test cases, test suites, or both. It is used to aggregate tests that should be executed together.
+
+- test runner
+A test runner is a component which orchestrates the execution of tests and provides the outcome to the user. The runner may use a graphical interface, a textual interface, or return a special value to indicate the results of executing the tests.
+
+Os métodos de teste devem começar com `test_`
 ### Passos para criar um teste unitário no Odoo:
+
+
+
 
 1. **Crie o arquivo de teste**:
    Odoo organiza os testes em uma pasta chamada `tests` dentro de cada módulo. O arquivo de teste geralmente é chamado de `test_<algo>.py`. Exemplo:
