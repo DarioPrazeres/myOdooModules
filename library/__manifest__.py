@@ -4,6 +4,7 @@
     'author': 'Dário Prazeres',
     'description': 'Library for save Books and Register accountability',
     'website': 'www.darioprazeres.com',
+    'license': 'LGPL-3',
     'depends': ['base', 'mail'],
     'data': [
         'security/ir.model.access.csv',

@@ -1,1 +1,2 @@
-#from . import test_name_of_tests
+from . import test_example
+from . import test_StringMethods
