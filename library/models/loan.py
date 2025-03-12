@@ -22,8 +22,8 @@ class LibraryLoan(models.Model):
     currency_id = fields.Many2one('res.currency', string="Currency", required=True,
                                   default=lambda self: self.env.company.currency_id)
     loan_line_ids = fields.One2many('library.loan.line', 'loan_ids', string="Loan Line")
-    #price_total = fields.Float(compute='_compute_preco_total', store=True, string="Total")
-    price_total = fields.Float(store=True, string="Total", currency_field='currency_id')
+    price_total = fields.Float(compute='_compute_preco_total', store=True, string="Total")
+    #price_total = fields.Float(store=True, string="Total", currency_field='currency_id')
     ref = fields.Char(string="Reference", default=lambda self: _('New'))
 
     def return_book(self):
@@ -47,7 +47,7 @@ class LibraryLoan(models.Model):
                 rec.book_id.write({'available': False})
 
     @api.onchange("return_date")
-    def _compute_return_date(self):
+    def compute_return_date(self):
         for rec in self:
             if rec.return_date and rec.return_date > rec.due_date:
                 rec.status = 'overdue'
@@ -107,7 +107,7 @@ class LibraryLoanLine(models.Model):
     sub_total = fields.Float(string="Subtotal", store=True, default=0, tracking=True)
     total = fields.Integer(string="Total", compute='_compute_total', store=True, default=0)
 
-    @api.depends('due_date')
+    @api.depends('loan_date', 'due_date')
     def _compute_day_loan(self):
         for rec in self:
             if rec.due_date:
@@ -120,13 +120,13 @@ class LibraryLoanLine(models.Model):
                     rec.sub_total = rec.day_loan * rec.price_book
 
     @api.onchange('qty')
-    def _onchange_qty(self):
+    def onchange_qty(self):
         if self.qty:
             if self.qty > 0 and self.book_ids.qty_stock < self.qty:
                 self.qty = self.book_ids.qty_stock
 
     @api.onchange('return_date')
-    def _onchange_return_date(self):
+    def onchange_return_date(self):
         if self.return_date:
             if self.return_date > self.due_date:
                 self.qty = self.book_ids.qty_stock
@@ -139,6 +139,7 @@ class LibraryLoanLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        available_qty = 0
         today = fields.Date.today()
         for vals in vals_list:
             qty_selected = vals.get('qty', 1)

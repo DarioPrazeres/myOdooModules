@@ -1,0 +1,13 @@
+"""
+        self.user = self.env['res.partner'].create({
+            'name': 'Johnny Deep',
+            'email': 'johnnydeep@paratus.ao'
+        })
+
+        self.author = self.env['library.author'].create({
+            'name': 'Colleen Hoover',
+            'birth': self.convert_to_date('12/11/1979')
+        })
+        self.category = self.env['library.category'].create({
+            'name': 'Romance'
+        })"""

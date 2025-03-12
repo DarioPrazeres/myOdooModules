@@ -1,8 +1,9 @@
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
+from odoo.tests import tagged
 import logging
 
-
+@tagged('library')
 class TestLibraryBook(TransactionCase):
     title = 'The Subtle Art of Not Giving a F*ck'
     available = True
@@ -73,15 +74,15 @@ class TestLibraryBook(TransactionCase):
     def success_or_failed(self, param_1, param_2):
         try:
             self.assertEqual(param_1, param_2)
-            self._logger.info("TEST SUCCESS.")
+            self._logger.info("BOOK, TEST SUCCESS.")
         except AssertionError:
             self._logger.error(
-                f"TEST FAILED.")
+                f"BOOK, TEST FAILED.")
             raise
 
     def validation_param(self, IsTrue):
         if IsTrue:
-            self._logger.info(f"TEST SUCCESS.")
+            self._logger.info(f"BOOK, TEST SUCCESS.")
         else:
             self._logger.info(f"Param:{IsTrue} ")
-            self._logger.error("TEST FAILED")
+            self._logger.error("BOOK, TEST FAILED")
