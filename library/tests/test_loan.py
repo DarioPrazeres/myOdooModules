@@ -10,7 +10,7 @@ class TestLibraryLoan(GeneralFunctions):
 
         self.user = self.env['res.partner'].create({
             'name': 'Johnny Deep',
-            'email': 'johnnydeep@paratus.ao'
+            'email': 'johnnydeep@sales.ao'
         })
 
         self.author = self.env['library.author'].create({
