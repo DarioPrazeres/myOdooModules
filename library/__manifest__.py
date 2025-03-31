@@ -10,12 +10,12 @@
         'security/ir.model.access.csv',
         'data/sequence.xml',
         'data/paper_format.xml',
+        'views/menu.xml',
         'views/loan.xml',
         'views/loan_line.xml',
         'views/book.xml',
         'views/category.xml',
         'views/author.xml',
-        'views/menu.xml',
         'report/report_loan.xml',
         'report/report.xml',
     ]

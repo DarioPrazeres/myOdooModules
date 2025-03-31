@@ -63,8 +63,8 @@
 
     <menuitem id="menu_library_loan_book"
               name="Loan Book"
-              action="action_library_loan_book"
               parent="menu_library_operations"
+              action="action_library_loan_book"
               sequence="10"/>
 
 </odoo>

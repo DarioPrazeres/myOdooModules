@@ -1,13 +1,16 @@
 #from odoo.tests.common import TransactionCase
 #from odoo.exceptions import ValidationError
 import logging
-from .geral_functions import GeneralFunctions
+from odoo.tests import tagged
 
+from .geral_functions import GeneralFunctions
+@tagged('library')
 class TestLibraryLoanLine(GeneralFunctions):
 
-    #_logger = logging.getLogger(__name__)
+    logger = logging.getLogger(__name__)
 
     def setUp(self):
+        self.logger.info('###LIBRARY LOAN LINE')
         super(TestLibraryLoanLine, self).setUp()
         self.author = self.env['library.author'].create({
             'name': 'Colleen Hoover',

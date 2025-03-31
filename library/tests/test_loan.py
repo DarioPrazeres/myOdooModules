@@ -1,5 +1,8 @@
-from .geral_functions import GeneralFunctions
+import datetime
+from odoo.tests import tagged
 
+from .geral_functions import GeneralFunctions
+@tagged('library')
 class TestLibraryLoan(GeneralFunctions):
 
     def setUp(self):
@@ -48,15 +51,15 @@ class TestLibraryLoan(GeneralFunctions):
             'loan_line_ids': [
                 (0, 0, {
                     'qty': 1,
-                    'due_date': self.convert_to_date('03/16/2025'),
-                    'return_date': self.convert_to_date('03/16/2025'),
+                    'due_date': datetime.date.today(),
+                    'return_date': datetime.date.today(),
                     'book_ids': self.book.id,
                     'status': 'loan'
                 }),
                 (0, 0, {
                     'qty': 1,
-                    'due_date': self.convert_to_date('03/20/2025'),
-                    'return_date': self.convert_to_date('03/20/2025'),
+                    'due_date': datetime.date.today(),
+                    'return_date': datetime.date.today(),
                     'book_ids': self.book1.id,
                     'status': 'loan'
                 }),

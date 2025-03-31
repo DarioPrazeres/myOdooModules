@@ -9,7 +9,7 @@ class LibraryBook(models.Model):
     _description = "Library"
     _inherit = ['mail.thread']
 
-    name = fields.Char(string="Name", compute="_compute_upper", store=True)
+    name = fields.Char(string="Name", store=True)
     title = fields.Char(string = "Title", required = True, tracking = True)
     author = fields.Many2one("library.author", string = "Author", required = True, tracking = True)
     category = fields.Many2one("library.category", string = "Category", required = True, tracking = True)
