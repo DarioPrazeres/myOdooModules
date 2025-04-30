@@ -1,0 +1,49 @@
+/* Tema claro */
+body {
+    background-color: white;
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .card {
+    border: 2px solid #333;  /* borda escura no tema claro */
+    padding: 20px;
+    margin: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Tema escuro */
+  body.dark {
+    background-color: #121212;
+    color: #f0f0f0;
+  }
+  
+  body.dark .card {
+    border-color: #ccc;  /* borda clara no tema escuro */
+    background-color: #1e1e1e;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+  
+    .card {
+      background-color: #1e1e1e;
+      border: 1px solid #ccc;
+    }
+  }
+  
+  @media (prefers-color-scheme: light) {
+    body {
+      background-color: #ffffff;
+      color: #000000;
+    }
+  
+    .card {
+      background-color: #f9f9f9;
+      border: 1px solid #333;
+    }
+  }
+  
