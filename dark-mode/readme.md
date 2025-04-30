@@ -55,4 +55,4 @@ Claro! Aqui está um **guia visual** para te ajudar a entender e estruturar boas
 
 Para uma versão mais detalhada e interativa deste guia, recomendo consultar o [API Design Roadmap da GeeksforGeeks](https://www.geeksforgeeks.org/api-design/), que oferece uma visão abrangente e atualizada sobre o design de APIs. ([API Design Roadmap: A Complete Guide [2025 Updated] - GeeksforGeeks](https://www.geeksforgeeks.org/api-design/?utm_source=chatgpt.com))
 
-Se precisares de mais detalhes ou exemplos práticos sobre algum desses tópicos, estou à disposição para ajudar! 
+Se precisares de mais detalhes ou exemplos práticos sobre algum desses tópicos, estou à disposição para ajudar!

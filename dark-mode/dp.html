@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vídeo de Fundo com Conteúdo Scrollável</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Vídeo de fundo fixo */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Conteúdo da página */
+    .conteudo {
+      position: relative;
+      z-index: 1;
+      padding: 100px 20px;
+      color: white;
+      text-align: center;
+    }
+
+    /* Para melhorar a leitura, você pode adicionar um fundo semi-transparente */
+    .bloco {
+      background-color: rgba(0, 0, 0, 0.5); /* fundo preto com 50% opacidade */
+      margin: 20px auto;
+      padding: 40px;
+      max-width: 800px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Vídeo como plano de fundo -->
+  <video class="video-background" autoplay muted loop playsinline>
+    <source src="bg-fiber.mp4" type="video/mp4">
+    Seu navegador não suporta vídeo em HTML5.
+  </video>
+
+  <!-- Conteúdo sobre o vídeo -->
+  <div class="conteudo">
+    <div class="bloco">
+      <h1>Bem-vindo ao meu site</h1>
+      <p>Esse texto aparece sobre o vídeo de fundo.</p>
+    </div>
+    <div class="bloco">
+      <h2>Mais Conteúdo</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse euismod.</p>
+    </div>
+    <div class="bloco">
+      <h2>Scroll Continuado</h2>
+      <p style="height: 600px;">Conteúdo extra para forçar scroll...</p>
+    </div>
+  </div>
+
+</body>
+</html>
